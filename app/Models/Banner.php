@@ -6,17 +6,16 @@ use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Announcement extends Model
+class Banner extends Model
 {
     use Uuid, HasFactory;
 
-    protected $table = 'ANNOUNCEMENTS';
+    protected $table = 'BANNERS';
 
     protected $fillable = [
         'uuid',
-        'title',
-        'slug',
-        'content',
+        'name',
+        'image',
     ];
 
     protected $primaryKey = 'uuid';

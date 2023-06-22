@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\GetCurrentUserHelper;
 use App\Helpers\TokenHelper;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Models\Employee;
@@ -46,6 +47,32 @@ class EmployeeController extends Controller
             return response()->json([
                 'code' => 400,
                 'msg'  => "Error, You Can't Login!",
+            ], 400);
+        }
+    }
+
+    public function getCurrentUser(Request $request)
+    {
+        try {
+            // Get Current User
+            $user = GetCurrentUserHelper::getCurrentUser($request->bearerToken(), new Employee());
+
+            return response()->json([
+                'code' => 200,
+                'msg' => "Here is the User",
+                'data' =>
+                [
+                    'uuid'            => $user->uuid,
+                    'name'            => $user->name,
+                    'email'           => $user->email,
+                    'photo'           => $user->photo ? config('app.base_url') . "/storage/EMPLOYEES/photo/" . $user->photo : null,
+                ]
+            ], 200);
+        } catch (\Throwable $th) {
+            dd($th);
+            return response()->json([
+                'code' => 400,
+                'msg' => "Error, Can't Get Current User!",
             ], 400);
         }
     }

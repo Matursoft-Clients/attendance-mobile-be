@@ -27,6 +27,7 @@ Route::group(
         Route::post('/login', [EmployeeController::class, 'login']);
         Route::middleware(['auth.auth'])->group(function () {
             Route::get('/user', [EmployeeController::class, 'getCurrentUser']);
+            Route::post('/update', [EmployeeController::class, 'update']);
         });
     }
 );

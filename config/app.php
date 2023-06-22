@@ -56,6 +56,8 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
+    'base_url' => env('BASE_URL', 'http://localhost:8000'),
+    'JWT_SECRET_KEY' => env('JWT_SECRET_KEY', 'sjhdfweuyfwebcfdeswu'),
 
     'asset_url' => env('ASSET_URL'),
 

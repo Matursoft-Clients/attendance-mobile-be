@@ -2,21 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Banner\IndexBannerRequest;
 use App\Models\Banner;
 use Illuminate\Support\Facades\DB;
 
 class BannerController extends Controller
 {
-    public function index(IndexBannerRequest $request)
+    public function index()
     {
         try {
-            $size = $request->s;
-
             $banners = Banner::select(
                 'BANNERS.name',
                 DB::raw("CONCAT('" . config('app.base_url') . "/storage/BANNERS/image/', image) as image"),
-            )->paginate($size);
+            )->get();
 
             return response()->json([
                 'code' => 200,

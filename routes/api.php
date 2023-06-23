@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\EmployeeController;
+use App\Http\Controllers\SettingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -56,6 +57,17 @@ Route::group(
     function () {
         Route::middleware(['auth.auth'])->group(function () {
             Route::get('/', [BannerController::class, 'index']);
+        });
+    }
+);
+
+Route::group(
+    [
+        'prefix' => 'settings'
+    ],
+    function () {
+        Route::middleware(['auth.auth'])->group(function () {
+            Route::get('/', [SettingController::class, 'index']);
         });
     }
 );

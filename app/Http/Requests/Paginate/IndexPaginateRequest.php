@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Announcement;
+namespace App\Http\Requests\Paginate;
 
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
-class IndexAnnouncementRequest extends FormRequest
+class IndexPaginateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

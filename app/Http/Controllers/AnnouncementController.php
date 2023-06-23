@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\Announcement\IndexAnnouncementRequest;
 use App\Http\Requests\Announcement\ShowAnnouncementRequest;
+use App\Http\Requests\Paginate\IndexPaginateRequest;
 use App\Models\Announcement;
 
 class AnnouncementController extends Controller
 {
-    public function index(IndexAnnouncementRequest $request)
+    public function index(IndexPaginateRequest $request)
     {
         try {
             $size = $request->s;

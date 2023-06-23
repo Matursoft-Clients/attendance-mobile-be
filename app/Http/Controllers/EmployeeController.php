@@ -9,6 +9,7 @@ use App\Helpers\SendEmailHelper;
 use App\Helpers\TokenHelper;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Employee\UpdateUserRequest;
+use App\Http\Requests\ResetPassword\CheckTokenRequest;
 use App\Http\Requests\ResetPassword\ForgotPasswordRequest;
 use App\Models\Employee;
 use Illuminate\Http\Request;
@@ -138,6 +139,35 @@ class EmployeeController extends Controller
             return response()->json([
                 'code' => 200,
                 'msg'  => "Forgot Password Code has been Sent to Your Email, Please check Your Email.",
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'code' => 400,
+                'msg'  => 'Error, Please Contact Admin!',
+            ], 400);
+        }
+    }
+
+    public function checkToken(CheckTokenRequest $request)
+    {
+        try {
+            $email = $request->email;
+            $key   = $request->key;
+            $token = $request->token;
+
+            $employee = Employee::where('email', $email)->first();
+
+            if (json_decode($employee->token)->key == $key && json_decode($employee->token)->token == $token) {
+                return response()->json([
+                    'code' => 200,
+                    'msg'  => "The Code is Correct.",
+                    'data' => true
+                ], 200);
+            }
+            return response()->json([
+                'code' => 200,
+                'msg'  => "The Code is Wrong.",
+                'data' => false
             ], 200);
         } catch (\Throwable $th) {
             return response()->json([

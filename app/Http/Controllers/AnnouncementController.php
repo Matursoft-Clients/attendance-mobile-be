@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\Announcement\IndexAnnouncementRequest;
+use App\Http\Requests\Announcement\ShowAnnouncementRequest;
 use App\Models\Announcement;
 
 class AnnouncementController extends Controller
@@ -28,6 +29,29 @@ class AnnouncementController extends Controller
             return response()->json([
                 'code' => 400,
                 'msg' => 'Error, Please Contact Admin!',
+            ], 400);
+        }
+    }
+
+    public function show(ShowAnnouncementRequest $request)
+    {
+        try {
+            $slug         = $request->slug;
+            $announcement = Announcement::select(
+                'ANNOUNCEMENTS.title',
+                'ANNOUNCEMENTS.slug',
+                'ANNOUNCEMENTS.content',
+            )->where('slug', $slug)->first();
+
+            return response()->json([
+                'code' => 200,
+                'msg'  => "Here is The Announcement",
+                'data' => $announcement,
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'code' => 400,
+                'msg'  => 'Error, Please Contact Admin!',
             ], 400);
         }
     }

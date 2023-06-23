@@ -43,6 +43,7 @@ Route::group(
     function () {
         Route::middleware(['auth.auth'])->group(function () {
             Route::get('/', [AnnouncementController::class, 'index']);
+            Route::get('/{slug}', [AnnouncementController::class, 'show']);
         });
     }
 );

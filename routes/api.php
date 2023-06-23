@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\BannerController;
 use App\Http\Controllers\EmployeeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -44,6 +45,17 @@ Route::group(
         Route::middleware(['auth.auth'])->group(function () {
             Route::get('/', [AnnouncementController::class, 'index']);
             Route::get('/{slug}', [AnnouncementController::class, 'show']);
+        });
+    }
+);
+
+Route::group(
+    [
+        'prefix' => 'banners'
+    ],
+    function () {
+        Route::middleware(['auth.auth'])->group(function () {
+            Route::get('/', [BannerController::class, 'index']);
         });
     }
 );

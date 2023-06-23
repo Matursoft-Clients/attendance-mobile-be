@@ -31,5 +31,6 @@ Route::group(
         });
         Route::post('/forgot-password', [EmployeeController::class, 'forgotPassword']);
         Route::post('/check-token', [EmployeeController::class, 'checkToken']);
+        Route::post('/reset-password', [EmployeeController::class, 'resetPassword']);
     }
 );

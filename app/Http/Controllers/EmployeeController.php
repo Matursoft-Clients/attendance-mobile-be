@@ -11,6 +11,7 @@ use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Employee\UpdateUserRequest;
 use App\Http\Requests\ResetPassword\CheckTokenRequest;
 use App\Http\Requests\ResetPassword\ForgotPasswordRequest;
+use App\Http\Requests\ResetPassword\ResetPasswordRequest;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -132,7 +133,7 @@ class EmployeeController extends Controller
                 'token' => [
                     'key'     => 'reset_password',
                     'token'   => $token,
-                    'expired' => now()
+                    'expired' => date("Y-m-d H:i:s", strtotime("1 hour"))
                 ]
             ]);
 
@@ -157,6 +158,15 @@ class EmployeeController extends Controller
 
             $employee = Employee::where('email', $email)->first();
 
+            // Cek Expired
+            if (json_decode($employee->token)->expired < date("Y-m-d H:i:s")) {
+                return response()->json([
+                    'code' => 200,
+                    'msg'  => "The Code is Expired.",
+                    'data' => false
+                ], 200);
+            }
+
             if (json_decode($employee->token)->key == $key && json_decode($employee->token)->token == $token) {
                 return response()->json([
                     'code' => 200,
@@ -164,9 +174,44 @@ class EmployeeController extends Controller
                     'data' => true
                 ], 200);
             }
+
             return response()->json([
                 'code' => 200,
                 'msg'  => "The Code is Wrong.",
+                'data' => false
+            ], 200);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'code' => 400,
+                'msg'  => 'Error, Please Contact Admin!',
+            ], 400);
+        }
+    }
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        try {
+            $email        = $request->email;
+            $new_password = $request->new_password;
+            $token        = $request->token;
+
+            $employee = Employee::where('email', $email)->first();
+
+            if (json_decode($employee->token)->token == $token) {
+                $employee->update([
+                    'password' => Hash::make($new_password),
+                    'token'    => NULL
+                ]);
+
+                return response()->json([
+                    'code' => 200,
+                    'msg'  => "Your Password has been Changed Successfully",
+                    'data' => true
+                ], 200);
+            }
+            return response()->json([
+                'code' => 200,
+                'msg'  => "Your Password has Failed to Change",
                 'data' => false
             ], 200);
         } catch (\Throwable $th) {

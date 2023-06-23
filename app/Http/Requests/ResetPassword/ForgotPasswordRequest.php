@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Http\Requests\Employee;
+namespace App\Http\Requests\ResetPassword;
 
 use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
-class UpdateUserRequest extends FormRequest
+class ForgotPasswordRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,9 +25,14 @@ class UpdateUserRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'      => 'required|string|max:50',
-            'password'  => ['nullable', 'min:6', 'confirmed'],
-            'photo'     => 'mimes:jpg,jpeg,png',
+            'email' => ['required', 'email', 'exists:EMPLOYEES,email'],
+        ];
+    }
+
+    public function messages()
+    {
+        return [
+            'email.exists' => 'Email is not Registered!',
         ];
     }
 

@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\EmailVerificationCodeHelper;
 use App\Helpers\GetCurrentUserHelper;
 use App\Helpers\ModelFileUploadHelper;
+use App\Helpers\SendEmailHelper;
 use App\Helpers\TokenHelper;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Http\Requests\Employee\UpdateUserRequest;
+use App\Http\Requests\ResetPassword\ForgotPasswordRequest;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -34,7 +37,8 @@ class EmployeeController extends Controller
             } else {
                 // Generate Token Login
                 $employee_uuid = $employee->uuid;
-                $token         = TokenHelper::encode($employee_uuid, $email);
+                $employee_name = $employee->name;
+                $token         = TokenHelper::encode($employee_uuid, $email, $employee_name);
 
                 return response()->json([
                     'code' => 200,
@@ -102,7 +106,40 @@ class EmployeeController extends Controller
                 ],
             ], 200);
         } catch (\Throwable $th) {
-            dd($th);
+            return response()->json([
+                'code' => 400,
+                'msg'  => 'Error, Please Contact Admin!',
+            ], 400);
+        }
+    }
+
+    public function forgotPassword(ForgotPasswordRequest $request)
+    {
+        try {
+            $email = $request->email;
+
+            $employee = Employee::where('email', $email)->first();
+
+            //Generate Kode Verification
+            $token = EmailVerificationCodeHelper::emailVerificationCode($email);
+
+            //Kirim Email
+            $name = $employee->name;
+            SendEmailHelper::sendEmail($name, $email, $token);
+
+            $employee->update([
+                'token' => [
+                    'key'     => 'reset_password',
+                    'token'   => $token,
+                    'expired' => now()
+                ]
+            ]);
+
+            return response()->json([
+                'code' => 200,
+                'msg'  => "Forgot Password Code has been Sent to Your Email, Please check Your Email.",
+            ], 200);
+        } catch (\Throwable $th) {
             return response()->json([
                 'code' => 400,
                 'msg'  => 'Error, Please Contact Admin!',

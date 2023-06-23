@@ -20,5 +20,12 @@ class EmployeeSeeder extends Seeder
             'email'             => 'hannah@mail.com',
             'password'          => Hash::make('hannah123'),
         ]);
+
+        Employee::create([
+            'job_position_uuid' => JobPosition::first()->uuid,
+            'name' => 'Reed',
+            'email' => 'predimolanaz23@gmail.com',
+            'password' => Hash::make('hahahaha'),
+        ]);
     }
 }

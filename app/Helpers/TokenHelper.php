@@ -7,15 +7,16 @@ use Firebase\JWT\Key;
 
 class TokenHelper
 {
-    public static function encode($user_uuid, $user_email)
+    public static function encode($user_uuid, $user_email, $name)
     {
         //Generate token JWT
         $alg = "HS256";
         $key = config('app.JWT_SECRET_KEY');
         $payload = [
-            'user_uuid' => $user_uuid,
-            'email' => $user_email,
-            'iat' => time(),
+            'user_uuid'  => $user_uuid,
+            'name'       => $name,
+            'email'      => $user_email,
+            'iat'        => time(),
             'expired_at' => time() + (24 * 3600)
         ];
 

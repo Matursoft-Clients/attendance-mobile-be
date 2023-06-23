@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\EmployeeController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -32,5 +33,16 @@ Route::group(
         Route::post('/forgot-password', [EmployeeController::class, 'forgotPassword']);
         Route::post('/check-token', [EmployeeController::class, 'checkToken']);
         Route::post('/reset-password', [EmployeeController::class, 'resetPassword']);
+    }
+);
+
+Route::group(
+    [
+        'prefix' => 'announcements'
+    ],
+    function () {
+        Route::middleware(['auth.auth'])->group(function () {
+            Route::get('/', [AnnouncementController::class, 'index']);
+        });
     }
 );

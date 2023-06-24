@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CustomAttendanceLocationController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SettingController;
 use Illuminate\Http\Request;
@@ -68,6 +69,18 @@ Route::group(
     function () {
         Route::middleware(['auth.auth'])->group(function () {
             Route::get('/', [SettingController::class, 'index']);
+        });
+    }
+);
+
+
+Route::group(
+    [
+        'prefix' => 'custom-attendance-locations'
+    ],
+    function () {
+        Route::middleware(['auth.auth'])->group(function () {
+            Route::get('/', [CustomAttendanceLocationController::class, 'getCustomAttendance']);
         });
     }
 );

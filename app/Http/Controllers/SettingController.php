@@ -23,7 +23,7 @@ class SettingController extends Controller
 
             return response()->json([
                 'code' => 200,
-                'msg' => "Here is Your Settings",
+                'msg'  => "Here is Your Settings",
                 'data' => [
                     'settings' => $settings
                 ]
@@ -31,7 +31,7 @@ class SettingController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'code' => 400,
-                'msg' => 'Error, Please Contact Admin!',
+                'msg'  => 'Error, Please Contact Admin!',
             ], 400);
         }
     }

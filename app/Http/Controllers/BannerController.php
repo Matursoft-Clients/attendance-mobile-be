@@ -17,7 +17,7 @@ class BannerController extends Controller
 
             return response()->json([
                 'code' => 200,
-                'msg' => "Here is Your Banners",
+                'msg'  => "Here is Your Banners",
                 'data' => [
                     'banners' => $banners
                 ]
@@ -25,7 +25,7 @@ class BannerController extends Controller
         } catch (\Throwable $th) {
             return response()->json([
                 'code' => 400,
-                'msg' => 'Error, Please Contact Admin!',
+                'msg'  => 'Error, Please Contact Admin!',
             ], 400);
         }
     }

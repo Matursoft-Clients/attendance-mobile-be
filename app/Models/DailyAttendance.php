@@ -10,7 +10,7 @@ class DailyAttendance extends Model
 {
     use Uuid, HasFactory;
 
-    protected $table = 'DAILY ATTENDANCES';
+    protected $table = 'DAILY_ATTENDANCES';
 
     protected $fillable = [
         'uuid',

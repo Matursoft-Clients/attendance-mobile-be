@@ -3,6 +3,7 @@
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CustomAttendanceLocationController;
+use App\Http\Controllers\DailyAttendanceController;
 use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SettingController;
 use Illuminate\Http\Request;
@@ -81,6 +82,17 @@ Route::group(
     function () {
         Route::middleware(['auth.auth'])->group(function () {
             Route::get('/', [CustomAttendanceLocationController::class, 'getCustomAttendance']);
+        });
+    }
+);
+
+Route::group(
+    [
+        'prefix' => 'daily-attendances'
+    ],
+    function () {
+        Route::middleware(['auth.auth'])->group(function () {
+            Route::get('/', [DailyAttendanceController::class, 'dailyAttendances']);
         });
     }
 );

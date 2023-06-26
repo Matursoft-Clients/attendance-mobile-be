@@ -96,3 +96,14 @@ Route::group(
         });
     }
 );
+
+Route::group(
+    [
+        'prefix' => 'presence'
+    ],
+    function () {
+        Route::middleware(['auth.auth'])->group(function () {
+            Route::post('/entry', [DailyAttendanceController::class, 'entry']);
+        });
+    }
+);

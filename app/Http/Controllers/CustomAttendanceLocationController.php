@@ -17,21 +17,16 @@ class CustomAttendanceLocationController extends Controller
 
             $custom_attendance = CustomAttendanceLocation::where('employee_uuid', $employee->uuid)->first();
 
-            if (!$custom_attendance) {
-                return response()->json([
-                    'code' => 200,
-                    'msg' => "User Doesn't Have Custom Attendance Location",
-                ], 200);
-            }
-
-            if (strtotime($custom_attendance->start_date) <= strtotime(date("Y-m-d H:i:s")) && strtotime($custom_attendance->end_date) >= strtotime(date("Y-m-d H:i:s"))) {
-                return response()->json([
-                    'code' => 200,
-                    'msg'  => "Here is the Custom Attendance Location",
-                    'data' => [
-                        "custom_attendance_location" => $custom_attendance
-                    ]
-                ], 200);
+            if ($custom_attendance) {
+                if (strtotime($custom_attendance->start_date) <= strtotime(date("Y-m-d H:i:s")) && strtotime($custom_attendance->end_date) >= strtotime(date("Y-m-d H:i:s"))) {
+                    return response()->json([
+                        'code' => 200,
+                        'msg'  => "Here is the Custom Attendance Location",
+                        'data' => [
+                            "custom_attendance_location" => $custom_attendance
+                        ]
+                    ], 200);
+                }
             }
 
             return response()->json([

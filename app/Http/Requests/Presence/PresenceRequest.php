@@ -25,22 +25,22 @@ class PresenceRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'address'              => 'required',
             'latitude'             => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
             'longitude'            => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
-            'address'              => 'required',
-            'preference_latitude'  => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
-            'preference_longitude' => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
-            'preference_address'   => 'required',
+            'reference_address'    => 'required',
+            'reference_latitude'   => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+            'reference_longitude'  => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
         ];
     }
 
     public function messages()
     {
         return [
-            'latitude.regex'             => "Latitude value doesn't match the format.",
-            'longitude.regex'            => "Longitude value doesn't match the format.",
-            'preference_latitude.regex'  => "Preference Latitude value doesn't match the format.",
-            'preference_longitude.regex' => "Preference Longitude value doesn't match the format.",
+            'latitude.regex'            => "Latitude value doesn't match the format.",
+            'longitude.regex'           => "Longitude value doesn't match the format.",
+            'reference_latitude.regex'  => "Reference Latitude value doesn't match the format.",
+            'reference_longitude.regex' => "Reference Longitude value doesn't match the format.",
         ];
     }
 

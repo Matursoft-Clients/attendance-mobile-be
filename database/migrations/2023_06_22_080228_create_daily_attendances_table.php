@@ -20,9 +20,9 @@ return new class extends Migration
             $table->text('presence_entry_address');
             $table->double('presence_entry_latitude');
             $table->double('presence_entry_longitude');
-            $table->text('presence_exit_address');
-            $table->double('presence_exit_latitude');
-            $table->double('presence_exit_longitude');
+            $table->text('presence_exit_address')->nullable();
+            $table->double('presence_exit_latitude')->nullable();
+            $table->double('presence_exit_longitude')->nullable();
             $table->text('reference_address');
             $table->double('reference_latitude');
             $table->double('reference_longitude');

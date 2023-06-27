@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\GetCurrentUserHelper;
 use App\Http\Requests\DailyAttendance\DailyAttendanceRequest;
-use App\Http\Requests\Presence\EntryPresenceRequest;
+use App\Http\Requests\Presence\PresenceRequest;
 use App\Models\DailyAttendance;
 use App\Models\Employee;
 
@@ -44,7 +44,7 @@ class DailyAttendanceController extends Controller
         }
     }
 
-    public function entry(EntryPresenceRequest $request)
+    public function entry(PresenceRequest $request)
     {
         // Get value from request body
         $latitude  = $request->latitude;
@@ -61,6 +61,29 @@ class DailyAttendanceController extends Controller
             'presence_entry_address'   => $address,
             'presence_entry_latitude'  => $latitude,
             'presence_entry_longitude' => $longitude,
+            'reference_address'        => 'makam',
+            'reference_latitude'       => 18.23,
+            'reference_longitude'      => 180,
+        ]);
+    }
+
+    public function exit(PresenceRequest $request)
+    {
+        // Get value from request body
+        $latitude  = $request->latitude;
+        $longitude = $request->longitude;
+        $address   = $request->address;
+
+        // Get Current User
+        $employee = GetCurrentUserHelper::getCurrentUser($request->bearerToken(), new Employee());
+
+        DailyAttendance::create([
+            'employee_uuid'            => $employee->uuid,
+            'date'                     => date("Y-m-d H:i:s"),
+            'presence_exit_status'    => 'on_time',
+            'presence_exit_address'   => $address,
+            'presence_exit_latitude'  => $latitude,
+            'presence_exit_longitude' => $longitude,
             'reference_address'        => 'makam',
             'reference_latitude'       => 18.23,
             'reference_longitude'      => 180,

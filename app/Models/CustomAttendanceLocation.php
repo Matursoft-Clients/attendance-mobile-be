@@ -17,6 +17,7 @@ class CustomAttendanceLocation extends Model
         'employee_uuid',
         'start_date',
         'end_date',
+        'presence_location_address',
         'presence_location_latitude',
         'presence_location_longitude',
     ];

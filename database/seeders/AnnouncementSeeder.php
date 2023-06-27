@@ -17,7 +17,7 @@ class AnnouncementSeeder extends Seeder
         $faker = Factory::create('id_ID');
 
         for ($i = 0; $i < 30; $i++) {
-            $title = $faker->sentence(mt_rand(4, 10));
+            $title = $faker->sentence(mt_rand(4, 8));
             $slug = Str::slug($title);
             Announcement::create([
                 'title' => $title,

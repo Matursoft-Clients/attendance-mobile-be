@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('employee_uuid');
             $table->dateTime('start_date');
             $table->dateTime('end_date');
+            $table->text('presence_location_address');
             $table->double('presence_location_latitude');
             $table->double('presence_location_longitude');
             $table->timestamps();

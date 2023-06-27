@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             JobPositionSeeder::class,
             EmployeeSeeder::class,
+            CustomAttendanceLocationSeeder::class,
         ]);
     }
 }

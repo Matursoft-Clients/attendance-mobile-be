@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
-class EntryPresenceRequest extends FormRequest
+class PresenceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,17 +25,22 @@ class EntryPresenceRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'latitude'  => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
-            'longitude' => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
-            'address'   => 'required',
+            'latitude'             => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+            'longitude'            => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
+            'address'              => 'required',
+            'preference_latitude'  => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
+            'preference_longitude' => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
+            'preference_address'   => 'required',
         ];
     }
 
     public function messages()
     {
         return [
-            'latitude.regex' => "Latitude value doesn't match the format.",
-            'longitude.regex' => "Longitude value doesn't match the format.",
+            'latitude.regex'             => "Latitude value doesn't match the format.",
+            'longitude.regex'            => "Longitude value doesn't match the format.",
+            'preference_latitude.regex'  => "Preference Latitude value doesn't match the format.",
+            'preference_longitude.regex' => "Preference Longitude value doesn't match the format.",
         ];
     }
 

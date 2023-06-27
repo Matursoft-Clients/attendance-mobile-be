@@ -15,14 +15,14 @@ class EmployeeSeeder extends Seeder
     public function run(): void
     {
         Employee::create([
-            'job_position_uuid' => JobPosition::first()->uuid,
+            'job_position_uuid' => JobPosition::inRandomOrder()->first()->uuid,
             'name'              => 'Hannah',
             'email'             => 'hannah@mail.com',
             'password'          => Hash::make('hannah123'),
         ]);
 
         Employee::create([
-            'job_position_uuid' => JobPosition::first()->uuid,
+            'job_position_uuid' => JobPosition::inRandomOrder()->first()->uuid,
             'name' => 'Reed',
             'email' => 'predimolanaz23@gmail.com',
             'password' => Hash::make('hahahaha'),

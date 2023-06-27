@@ -104,6 +104,7 @@ Route::group(
     function () {
         Route::middleware(['auth.auth'])->group(function () {
             Route::post('/entry', [DailyAttendanceController::class, 'entry']);
+            Route::post('/exit', [DailyAttendanceController::class, 'exit']);
         });
     }
 );

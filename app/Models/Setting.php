@@ -19,6 +19,7 @@ class Setting extends Model
         'presence_entry_start',
         'presence_entry_end',
         'presence_exit',
+        'presence_location_address',
         'presence_location_latitude',
         'presence_location_longitude',
         'presence_meter_radius',

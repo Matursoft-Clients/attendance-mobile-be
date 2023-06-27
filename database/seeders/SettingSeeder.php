@@ -18,6 +18,7 @@ class SettingSeeder extends Seeder
             'presence_entry_start'        => '06:00:00',
             'presence_entry_end'          => '08:00:00',
             'presence_exit'               => '17:00:00',
+            'presence_location_address'   => 'Sumampir RT 10/03',
             'presence_location_latitude'  => '41.40338',
             'presence_location_longitude' => '2.17403',
             'presence_meter_radius'       => 12,

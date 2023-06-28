@@ -4,7 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Helpers\GetCurrentUserHelper;
 use App\Http\Requests\DailyAttendance\DailyAttendanceRequest;
-use App\Http\Requests\Presence\PresenceRequest;
+use App\Http\Requests\Presence\EntryPresenceRequest;
+use App\Http\Requests\Presence\ExitPresenceRequest;
 use App\Models\CustomAttendanceLocation;
 use App\Models\DailyAttendance;
 use App\Models\Employee;
@@ -46,7 +47,7 @@ class DailyAttendanceController extends Controller
         }
     }
 
-    public function entry(PresenceRequest $request)
+    public function entry(EntryPresenceRequest $request)
     {
         // Get value from request body
         $address             = $request->address;
@@ -59,8 +60,20 @@ class DailyAttendanceController extends Controller
         // Get Current User
         $employee = GetCurrentUserHelper::getCurrentUser($request->bearerToken(), new Employee());
 
+        $daily_attendance = DailyAttendance::where('employee_uuid', $employee->uuid)->whereDate('date', date("Y-m-d"))->first();
+
+        // Cek Data is Already Exist or Not
+        if ($daily_attendance) {
+            return response()->json([
+                'code' => 200,
+                'msg' => "You have Already Done Presence Entry",
+            ], 200);
+        }
+
+        // Get Employee in Custom Attendance
         $custom_attendance = CustomAttendanceLocation::where('employee_uuid', $employee->uuid)->first();
 
+        // Get Default Setting for Attendance
         $settings = Setting::select('SETTINGS.presence_entry_end')->first();
 
         if ($custom_attendance) {
@@ -79,7 +92,7 @@ class DailyAttendanceController extends Controller
 
                 return response()->json([
                     'code' => 200,
-                    'msg' => "You have successfully do Presence Entry",
+                    'msg' => "You have Successfully Do Presence Entry",
                 ], 200);
             }
         }
@@ -98,30 +111,41 @@ class DailyAttendanceController extends Controller
 
         return response()->json([
             'code' => 200,
-            'msg' => "You have successfully do Presence Entry",
+            'msg' => "You have Successfully Do Presence Entry",
         ], 200);
     }
 
-    public function exit(PresenceRequest $request)
+    public function exit(ExitPresenceRequest $request)
     {
         // Get value from request body
-        $latitude  = $request->latitude;
-        $longitude = $request->longitude;
-        $address   = $request->address;
+        $address             = $request->address;
+        $latitude            = $request->latitude;
+        $longitude           = $request->longitude;
 
         // Get Current User
         $employee = GetCurrentUserHelper::getCurrentUser($request->bearerToken(), new Employee());
 
-        DailyAttendance::create([
-            'employee_uuid'            => $employee->uuid,
-            'date'                     => date("Y-m-d H:i:s"),
-            'presence_exit_status'    => 'on_time',
+        $settings = Setting::select('SETTINGS.presence_exit')->first();
+
+        $daily_attendance = DailyAttendance::where('employee_uuid', $employee->uuid)->whereDate('date', date("Y-m-d"))->first();
+
+        if (!$daily_attendance) {
+            return response()->json([
+                'code' => 200,
+                'msg' => "You have to Do Presence Entry First",
+            ], 200);
+        }
+
+        $daily_attendance->update([
+            'presence_exit_status'    => $settings->presence_exit >= date("H:i:s") ? 'early' : 'on_time',
             'presence_exit_address'   => $address,
             'presence_exit_latitude'  => $latitude,
             'presence_exit_longitude' => $longitude,
-            'reference_address'        => 'makam',
-            'reference_latitude'       => 18.23,
-            'reference_longitude'      => 180,
         ]);
+
+        return response()->json([
+            'code' => 200,
+            'msg' => "You have Successfully Do Presence Exit",
+        ], 200);
     }
 }

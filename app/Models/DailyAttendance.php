@@ -30,4 +30,6 @@ class DailyAttendance extends Model
     ];
 
     protected $primaryKey = 'uuid';
+
+    protected $casts = ['date' => 'datetime'];
 }

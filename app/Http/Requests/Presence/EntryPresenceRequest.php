@@ -7,7 +7,7 @@ use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 
-class PresenceRequest extends FormRequest
+class EntryPresenceRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.

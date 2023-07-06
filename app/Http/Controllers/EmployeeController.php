@@ -160,10 +160,10 @@ class EmployeeController extends Controller
             // Cek Expired
             if (json_decode($employee->token)->expired < date("Y-m-d H:i:s")) {
                 return response()->json([
-                    'code' => 200,
+                    'code' => 422,
                     'msg'  => "The Code is Expired.",
                     'data' => false
-                ], 200);
+                ], 422);
             }
 
             if (json_decode($employee->token)->key == $key && json_decode($employee->token)->token == $token) {
@@ -175,10 +175,10 @@ class EmployeeController extends Controller
             }
 
             return response()->json([
-                'code' => 200,
+                'code' => 422,
                 'msg'  => "The Code is Wrong.",
                 'data' => false
-            ], 200);
+            ], 422);
         } catch (\Throwable $th) {
             return response()->json([
                 'code' => 400,

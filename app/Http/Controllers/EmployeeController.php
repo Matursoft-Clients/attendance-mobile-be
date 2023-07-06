@@ -77,7 +77,6 @@ class EmployeeController extends Controller
                 ]
             ], 200);
         } catch (\Throwable $th) {
-            dd($th);
             return response()->json([
                 'code' => 400,
                 'msg'  => "Error, Can't Get Current User!",

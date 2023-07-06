@@ -21,7 +21,7 @@ return new class extends Migration
             $table->double('presence_location_longitude');
             $table->timestamps();
 
-            $table->foreign('employee_uuid')->references('uuid')->on('EMPLOYEES')->onDelete('RESTRICT');
+            $table->foreign('employee_uuid')->references('uuid')->on('EMPLOYEES')->onDelete('CASCADE');
         });
     }
 

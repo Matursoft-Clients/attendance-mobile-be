@@ -2,8 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Models\User;
-
 class GetCurrentUserHelper
 {
     public static function getCurrentUser($token, $model)

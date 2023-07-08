@@ -15,9 +15,9 @@ return new class extends Migration
             $table->uuid()->primary();
             $table->string('office_name', 60);
             $table->string('office_logo')->nullable();
-            $table->time('presence_entry_start');
-            $table->time('presence_entry_end');
-            $table->time('presence_exit');
+            $table->string('presence_entry_start');
+            $table->string('presence_entry_end');
+            $table->string('presence_exit');
             $table->text('presence_location_address');
             $table->double('presence_location_latitude');
             $table->double('presence_location_longitude');

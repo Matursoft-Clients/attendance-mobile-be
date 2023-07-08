@@ -14,7 +14,7 @@ class SettingSeeder extends Seeder
     {
         Setting::create([
             'office_name'                 => 'Reed co.',
-            'office_logo'                 => 'apa.png',
+            'office_logo'                 => null,
             'presence_entry_start'        => '06:00:00',
             'presence_entry_end'          => '08:00:00',
             'presence_exit'               => '17:00:00',

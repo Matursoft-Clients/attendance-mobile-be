@@ -28,9 +28,6 @@ class EntryPresenceRequest extends FormRequest
             'address'              => 'required',
             'latitude'             => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
             'longitude'            => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
-            'reference_address'    => 'required',
-            'reference_latitude'   => ['required', 'regex:/^[-]?(([0-8]?[0-9])\.(\d+))|(90(\.0+)?)$/'],
-            'reference_longitude'  => ['required', 'regex:/^[-]?((((1[0-7][0-9])|([0-9]?[0-9]))\.(\d+))|180(\.0+)?)$/'],
         ];
     }
 
@@ -39,8 +36,6 @@ class EntryPresenceRequest extends FormRequest
         return [
             'latitude.regex'            => "Latitude value doesn't match the format.",
             'longitude.regex'           => "Longitude value doesn't match the format.",
-            'reference_latitude.regex'  => "Reference Latitude value doesn't match the format.",
-            'reference_longitude.regex' => "Reference Longitude value doesn't match the format.",
         ];
     }
 

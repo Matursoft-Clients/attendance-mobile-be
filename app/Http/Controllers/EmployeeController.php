@@ -13,6 +13,7 @@ use App\Http\Requests\ResetPassword\CheckTokenRequest;
 use App\Http\Requests\ResetPassword\ForgotPasswordRequest;
 use App\Http\Requests\ResetPassword\ResetPasswordRequest;
 use App\Models\Employee;
+use App\Models\JobPosition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 
@@ -74,6 +75,7 @@ class EmployeeController extends Controller
                     'name'  => $user->name,
                     'email' => $user->email,
                     'photo' => $user->photo ? config('app.base_url') . "/storage/EMPLOYEES/photo/" . $user->photo : null,
+                    'job_position' => JobPosition::where('uuid', $user->job_position_uuid)->first()->name
                 ]
             ], 200);
         } catch (\Throwable $th) {
@@ -92,7 +94,7 @@ class EmployeeController extends Controller
 
             $user->update([
                 'name'     => $request->name,
-                'password' => Hash::make($request->password),
+                'password' => $request->password ? Hash::make($request->password) : $user->password,
                 'photo'    => ModelFileUploadHelper::modelFileUpdate($user, 'photo', $request->file('photo')),
             ]);
 

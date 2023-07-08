@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Announcement\ShowAnnouncementRequest;
 use App\Http\Requests\Paginate\IndexPaginateRequest;
 use App\Models\Announcement;
+use DB;
 
 class AnnouncementController extends Controller
 {
@@ -16,6 +17,7 @@ class AnnouncementController extends Controller
             $announcements = Announcement::select(
                 'ANNOUNCEMENTS.title',
                 'ANNOUNCEMENTS.slug',
+                DB::raw('DATE_FORMAT(ANNOUNCEMENTS.created_at, "%Y-%m-%d %H:%i:%s") as created_at_format')
             )->paginate($size);
 
             return response()->json([
@@ -41,6 +43,7 @@ class AnnouncementController extends Controller
                 'ANNOUNCEMENTS.title',
                 'ANNOUNCEMENTS.slug',
                 'ANNOUNCEMENTS.content',
+                DB::raw('DATE_FORMAT(ANNOUNCEMENTS.created_at, "%Y-%m-%d %H:%i:%s") as created_at_format')
             )->where('slug', $slug)->first();
 
             return response()->json([

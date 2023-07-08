@@ -53,9 +53,6 @@ class DailyAttendanceController extends Controller
         $address             = $request->address;
         $latitude            = $request->latitude;
         $longitude           = $request->longitude;
-        $reference_address   = $request->reference_address;
-        $reference_latitude  = $request->reference_latitude;
-        $reference_longitude = $request->reference_longitude;
 
         // Get Current User
         $employee = GetCurrentUserHelper::getCurrentUser($request->bearerToken(), new Employee());
@@ -71,10 +68,13 @@ class DailyAttendanceController extends Controller
         }
 
         // Get Employee in Custom Attendance
-        $custom_attendance = CustomAttendanceLocation::where('employee_uuid', $employee->uuid)->first();
+        $custom_attendance = CustomAttendanceLocation::where('employee_uuid', $employee->uuid)
+            ->whereDate('start_date', '<=', date("Y-m-d H:i:s"))
+            ->whereDate('end_date', '>=', date("Y-m-d H:i:s"))
+            ->first();
 
         // Get Default Setting for Attendance
-        $settings = Setting::select('SETTINGS.presence_entry_end')->first();
+        $settings = Setting::first();
 
         if ($custom_attendance) {
             if (strtotime($custom_attendance->start_date) <= strtotime(date("Y-m-d H:i:s")) && strtotime($custom_attendance->end_date) >= strtotime(date("Y-m-d H:i:s"))) {
@@ -104,9 +104,9 @@ class DailyAttendanceController extends Controller
             'presence_entry_address'   => $address,
             'presence_entry_latitude'  => $latitude,
             'presence_entry_longitude' => $longitude,
-            'reference_address'        => $reference_address,
-            'reference_latitude'       => $reference_latitude,
-            'reference_longitude'      => $reference_longitude,
+            'reference_address'        => $settings->reference_address,
+            'reference_latitude'       => $settings->reference_latitude,
+            'reference_longitude'      => $settings->reference_longitude,
         ]);
 
         return response()->json([

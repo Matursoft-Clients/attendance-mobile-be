@@ -15,7 +15,7 @@ class BannerSeeder extends Seeder
     {
         $faker = Factory::create('id_ID');
 
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             Banner::create([
                 'name' => $faker->words(mt_rand(1, 3), true),
                 'image' => $faker->bothify('?????-#####') . '.png'

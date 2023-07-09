@@ -75,7 +75,12 @@ class EmployeeController extends Controller
                     'uuid'  => $user->uuid,
                     'name'  => $user->name,
                     'email' => $user->email,
+<<<<<<< HEAD
                     'photo' => $user->photo ? config('app.base_url') . "employee/" . $user->photo : null,
+=======
+                    'photo' => $user->photo ? config('app.base_url') . "/storage/EMPLOYEES/photo/" . $user->photo : null,
+                    'job_position' => JobPosition::where('uuid', $user->job_position_uuid)->first()->name
+>>>>>>> 87bbc6b8d71029ae7b02b20f7a7ff76722d92a09
                 ]
             ], 200);
         } catch (\Throwable $th) {
@@ -103,7 +108,8 @@ class EmployeeController extends Controller
             $user->update([
                 'name'     => $request->name,
                 'password' => Hash::make($request->password),
-                'photo'    => ModelFileUploadHelper::modelFileUpdate($user, 'photo', $request->file('photo')),
+                'photo'    => $request->file('photo') ? $uploadPhoto : $user->photo,
+
             ]);
 
             return response()->json([

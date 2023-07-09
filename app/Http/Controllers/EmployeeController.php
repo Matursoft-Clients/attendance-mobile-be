@@ -15,6 +15,7 @@ use App\Http\Requests\ResetPassword\ResetPasswordRequest;
 use App\Models\Employee;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class EmployeeController extends Controller
 {
@@ -73,7 +74,7 @@ class EmployeeController extends Controller
                     'uuid'  => $user->uuid,
                     'name'  => $user->name,
                     'email' => $user->email,
-                    'photo' => $user->photo ? config('app.base_url') . "/storage/EMPLOYEES/photo/" . $user->photo : null,
+                    'photo' => $user->photo ? config('app.base_url') . "employee/" . $user->photo : null,
                 ]
             ], 200);
         } catch (\Throwable $th) {
@@ -90,10 +91,19 @@ class EmployeeController extends Controller
             // Get Current User
             $user = GetCurrentUserHelper::getCurrentUser($request->bearerToken(), new Employee());
 
+            if ($request->file('photo')) {
+                $uploadPhoto = Http::attach(
+                    'photo',
+                    $request->file('photo'),
+                    $request->file('photo')->getFilename() . '.' . $request->file('photo')->getClientOriginalExtension()
+                )->post('http://127.0.0.1:8002/employees/' . $user->uuid);
+            }
+
             $user->update([
                 'name'     => $request->name,
                 'password' => Hash::make($request->password),
-                'photo'    => ModelFileUploadHelper::modelFileUpdate($user, 'photo', $request->file('photo')),
+                'photo'    => $request->file('photo') ? $uploadPhoto : $user->photo,
+
             ]);
 
             return response()->json([
@@ -103,10 +113,11 @@ class EmployeeController extends Controller
                     'uuid'  => $user->uuid,
                     'name'  => $user->name,
                     'email' => $user->email,
-                    'photo' => $user->photo ? config('app.base_url') . "/storage/EMPLOYEES/photo/" . $user->photo : null,
+                    'photo' => $user->photo ? config('app.base_url') . "employee/" . $user->photo : null,
                 ],
             ], 200);
         } catch (\Throwable $th) {
+            dd($th);
             return response()->json([
                 'code' => 400,
                 'msg'  => 'Error, Please Contact Admin!',

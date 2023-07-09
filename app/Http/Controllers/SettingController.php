@@ -12,7 +12,7 @@ class SettingController extends Controller
         try {
             $settings = Setting::select(
                 'SETTINGS.office_name',
-                DB::raw("CONCAT('" . config('app.base_url') . "/storage/SETTINGS/office_logo/', office_logo) as office_logo"),
+                DB::raw("CONCAT('" . config('app.web_url') . "setting/', office_logo) as office_logo"),
                 'SETTINGS.presence_entry_start',
                 'SETTINGS.presence_entry_end',
                 'SETTINGS.presence_exit',

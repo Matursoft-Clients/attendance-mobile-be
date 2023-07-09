@@ -75,7 +75,7 @@ class EmployeeController extends Controller
                     'uuid'  => $user->uuid,
                     'name'  => $user->name,
                     'email' => $user->email,
-                    'photo' => $user->photo ? config('app.base_url') . "employee/" . $user->photo : null,
+                    'photo' => $user->photo ? config('app.web_url') . "employee/" . $user->photo : null,
                 ]
             ], 200);
         } catch (\Throwable $th) {
@@ -114,7 +114,7 @@ class EmployeeController extends Controller
                     'uuid'  => $user->uuid,
                     'name'  => $user->name,
                     'email' => $user->email,
-                    'photo' => $user->photo ? config('app.base_url') . "employee/" . $user->photo : null,
+                    'photo' => $user->photo ? config('app.web_url') . "employee/" . $user->photo : null,
                 ],
             ], 200);
         } catch (\Throwable $th) {

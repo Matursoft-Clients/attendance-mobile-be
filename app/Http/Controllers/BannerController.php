@@ -12,7 +12,7 @@ class BannerController extends Controller
         try {
             $banners = Banner::select(
                 'BANNERS.name',
-                DB::raw("CONCAT('" . config('app.base_url') . "/storage/BANNERS/image/', image) as image"),
+                DB::raw("CONCAT('" . config('app.web_url') . "banner/', image) as image"),
             )->get();
 
             return response()->json([

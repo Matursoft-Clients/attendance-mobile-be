@@ -56,7 +56,8 @@ return [
     */
 
     'url' => env('APP_URL', 'http://localhost'),
-    'base_url' => env('BASE_URL', 'http://103.63.25.25/'),
+    'base_url' => env('BASE_URL', 'http://127.0.0.1:8000/'),
+    'web_url' => env('WEB_URL', 'http://103.63.25.25/'),
     'JWT_SECRET_KEY' => env('JWT_SECRET_KEY', 'Matursoft@GG'),
 
     'asset_url' => env('ASSET_URL'),

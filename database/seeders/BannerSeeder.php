@@ -18,7 +18,7 @@ class BannerSeeder extends Seeder
         for ($i = 0; $i < 30; $i++) {
             Banner::create([
                 'name' => $faker->words(mt_rand(1, 3), true),
-                'image' => $faker->bothify('?????-#####') . '.png'
+                'image' => null
             ]);
         }
     }

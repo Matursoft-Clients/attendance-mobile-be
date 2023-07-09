@@ -29,8 +29,15 @@ class DailyAttendanceController extends Controller
                 return response()->json([
                     'code' => 200,
                     'msg' => "The User hasn't Attended on " . $new_date,
+                    'data' => [
+                        'attendance' => [
+                            'status' => false
+                        ]    
+                    ]
                 ], 200);
             }
+
+$daily_attendance['status'] = true;
 
             return response()->json([
                 'code' => 200,

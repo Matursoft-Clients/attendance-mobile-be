@@ -13,6 +13,7 @@ use App\Http\Requests\ResetPassword\CheckTokenRequest;
 use App\Http\Requests\ResetPassword\ForgotPasswordRequest;
 use App\Http\Requests\ResetPassword\ResetPasswordRequest;
 use App\Models\Employee;
+use App\Models\JobPosition;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -102,8 +103,7 @@ class EmployeeController extends Controller
             $user->update([
                 'name'     => $request->name,
                 'password' => Hash::make($request->password),
-                'photo'    => $request->file('photo') ? $uploadPhoto : $user->photo,
-
+                'photo'    => ModelFileUploadHelper::modelFileUpdate($user, 'photo', $request->file('photo')),
             ]);
 
             return response()->json([

@@ -69,9 +69,7 @@ Route::group(
         'prefix' => 'settings'
     ],
     function () {
-        Route::middleware(['auth.auth'])->group(function () {
-            Route::get('/', [SettingController::class, 'index']);
-        });
+        Route::get('/', [SettingController::class, 'index']);
     }
 );
 

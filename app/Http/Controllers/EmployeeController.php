@@ -53,7 +53,6 @@ class EmployeeController extends Controller
                 ], 200);
             }
         } catch (\Throwable $th) {
-            dd($th);
             return response()->json([
                 'code' => 400,
                 'msg'  => "Error, You Can't Login!",
@@ -95,15 +94,16 @@ class EmployeeController extends Controller
             if ($request->file('photo')) {
                 $uploadPhoto = Http::attach(
                     'photo',
-                    $request->file('photo'),
+                    $request->file('photo')->getContent(),
                     $request->file('photo')->getFilename() . '.' . $request->file('photo')->getClientOriginalExtension()
-                )->post('http://127.0.0.1:8002/employees/' . $user->uuid);
+                )->post(config('app.web_url') . 'employees/' . $user->uuid);
             }
+
 
             $user->update([
                 'name'     => $request->name,
                 'password' => Hash::make($request->password),
-                'photo'    => $request->file('photo') ? $uploadPhoto : $user->photo,
+                'photo'    => $request->file('photo') ? $uploadPhoto->body() : $user->photo,
 
             ]);
 
@@ -118,7 +118,6 @@ class EmployeeController extends Controller
                 ],
             ], 200);
         } catch (\Throwable $th) {
-            dd($th);
             return response()->json([
                 'code' => 400,
                 'msg'  => 'Error, Please Contact Admin!',

@@ -32,12 +32,12 @@ class DailyAttendanceController extends Controller
                     'data' => [
                         'attendance' => [
                             'status' => false
-                        ]    
+                        ]
                     ]
                 ], 200);
             }
 
-$daily_attendance['status'] = true;
+            $daily_attendance['status'] = true;
 
             return response()->json([
                 'code' => 200,
@@ -89,6 +89,7 @@ $daily_attendance['status'] = true;
                     'employee_uuid'            => $employee->uuid,
                     'date'                     => date("Y-m-d H:i:s"),
                     'presence_entry_status'    => $settings->presence_entry_end >= date("H:i:s") ? 'on_time' : 'late',
+                    'presence_entry_hour'      => date("H:i"),
                     'presence_entry_address'   => $address,
                     'presence_entry_latitude'  => $latitude,
                     'presence_entry_longitude' => $longitude,
@@ -104,16 +105,18 @@ $daily_attendance['status'] = true;
             }
         }
 
+
         DailyAttendance::create([
             'employee_uuid'            => $employee->uuid,
             'date'                     => date("Y-m-d H:i:s"),
             'presence_entry_status'    => $settings->presence_entry_end >= date("H:i:s") ? 'on_time' : 'late',
+            'presence_entry_hour'      => date("H:i"),
             'presence_entry_address'   => $address,
             'presence_entry_latitude'  => $latitude,
             'presence_entry_longitude' => $longitude,
-            'reference_address'        => $settings->reference_address,
-            'reference_latitude'       => $settings->reference_latitude,
-            'reference_longitude'      => $settings->reference_longitude,
+            'reference_address'        => $settings->presence_location_address,
+            'reference_latitude'       => $settings->presence_location_latitude,
+            'reference_longitude'      => $settings->presence_location_longitude,
         ]);
 
         return response()->json([
@@ -145,6 +148,7 @@ $daily_attendance['status'] = true;
 
         $daily_attendance->update([
             'presence_exit_status'    => $settings->presence_exit >= date("H:i:s") ? 'early' : 'on_time',
+            'presence_exit_hour'      => date("H:i"),
             'presence_exit_address'   => $address,
             'presence_exit_latitude'  => $latitude,
             'presence_exit_longitude' => $longitude,

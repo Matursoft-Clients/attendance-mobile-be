@@ -16,7 +16,9 @@ return new class extends Migration
             $table->uuid('employee_uuid');
             $table->dateTime('date');
             $table->enum('presence_entry_status', ['on_time', 'late', 'not_present'])->nullable();
+            $table->string('presence_entry_hour')->nullable();
             $table->enum('presence_exit_status', ['on_time', 'early', 'not_present'])->nullable();
+            $table->string('presence_exit_hour')->nullable();
             $table->text('presence_entry_address');
             $table->double('presence_entry_latitude');
             $table->double('presence_entry_longitude');

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\Announcement\ShowAnnouncementRequest;
 use App\Http\Requests\Paginate\IndexPaginateRequest;
 use App\Models\Announcement;
-use DB;
+use Illuminate\Support\Facades\DB;
 
 class AnnouncementController extends Controller
 {

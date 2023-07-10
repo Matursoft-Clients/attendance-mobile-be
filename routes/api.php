@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnnouncementController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CustomAttendanceLocationController;
 use App\Http\Controllers\DailyAttendanceController;
 use App\Http\Controllers\EmployeeController;
@@ -105,6 +106,17 @@ Route::group(
         Route::middleware(['auth.auth'])->group(function () {
             Route::post('/entry', [DailyAttendanceController::class, 'entry']);
             Route::post('/exit', [DailyAttendanceController::class, 'exit']);
+        });
+    }
+);
+
+Route::group(
+    [
+        'prefix' => 'calendar'
+    ],
+    function () {
+        Route::middleware(['auth.auth'])->group(function () {
+            Route::get('', [CalendarController::class, 'getCalendar']);
         });
     }
 );

@@ -111,6 +111,7 @@ class EmployeeController extends Controller
 
             $user->update([
                 'name'     => $request->name,
+                'whatsapp_number'     => $request->whatsapp_number,
                 'password' => Hash::make($request->password),
                 'photo'    => $request->file('photo') ? $uploadPhoto->body() : $user->photo,
 

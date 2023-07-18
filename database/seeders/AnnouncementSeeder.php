@@ -16,13 +16,14 @@ class AnnouncementSeeder extends Seeder
     {
         $faker = Factory::create('id_ID');
 
-        for ($i = 0; $i < 30; $i++) {
+        for ($i = 0; $i < 3; $i++) {
             $title = $faker->sentence(mt_rand(4, 8));
             $slug = Str::slug($title);
             Announcement::create([
-                'title' => $title,
-                'slug'  => $slug,
-                'content' => $faker->paragraph(mt_rand(5, 10))
+                'title'     => $title,
+                'slug'      => $slug,
+                'thumbnail' => 'apa.png',
+                'content'   => $faker->paragraph(mt_rand(5, 10))
             ]);
         }
     }

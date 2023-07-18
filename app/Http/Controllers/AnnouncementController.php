@@ -17,6 +17,7 @@ class AnnouncementController extends Controller
             $announcements = Announcement::select(
                 'ANNOUNCEMENTS.title',
                 'ANNOUNCEMENTS.slug',
+                DB::raw("CONCAT('" . config('app.web_url') . "announcement/', thumbnail) as thumbnail"),
                 DB::raw('DATE_FORMAT(ANNOUNCEMENTS.created_at, "%Y-%m-%d %H:%i:%s") as created_at_format')
             )->paginate($size);
 
@@ -42,6 +43,7 @@ class AnnouncementController extends Controller
             $announcement = Announcement::select(
                 'ANNOUNCEMENTS.title',
                 'ANNOUNCEMENTS.slug',
+                DB::raw("CONCAT('" . config('app.web_url') . "announcement/', thumbnail) as thumbnail"),
                 'ANNOUNCEMENTS.content',
                 DB::raw('DATE_FORMAT(ANNOUNCEMENTS.created_at, "%Y-%m-%d %H:%i:%s") as created_at_format')
             )->where('slug', $slug)->first();

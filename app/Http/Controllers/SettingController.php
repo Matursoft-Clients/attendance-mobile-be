@@ -16,9 +16,9 @@ class SettingController extends Controller
                 'SETTINGS.presence_entry_start',
                 'SETTINGS.presence_entry_end',
                 'SETTINGS.presence_exit',
-                'SETTINGS.presence_location_latitude',
-                'SETTINGS.presence_location_longitude',
                 'SETTINGS.presence_meter_radius',
+                'SETTINGS.mobile_app_version',
+                'SETTINGS.play_store_url',
             )->first();
 
             return response()->json([

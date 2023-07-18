@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ANNOUNCEMENTS', function (Blueprint $table) {
+        Schema::create('BRANCHES', function (Blueprint $table) {
             $table->uuid()->primary();
-            $table->string('title', 100);
-            $table->string('slug', 150)->unique();
-            $table->string('thumbnail');
-            $table->text('content');
+            $table->string('name');
+            $table->string('code');
+            $table->text('presence_location_address');
+            $table->double('presence_location_latitude');
+            $table->double('presence_location_longitude');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ANNOUNCEMENTS');
+        Schema::dropIfExists('BRANCHES');
     }
 };

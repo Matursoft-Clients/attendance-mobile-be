@@ -13,14 +13,18 @@ return new class extends Migration
     {
         Schema::create('EMPLOYEES', function (Blueprint $table) {
             $table->uuid()->primary();
+            $table->uuid('branch_uuid');
             $table->uuid('job_position_uuid');
+            $table->string('nik', 16);
             $table->string('name', 60);
             $table->string('email', 60)->unique();
+            $table->string('whatsapp_number', 14);
             $table->string('password');
             $table->string('photo')->nullable();
             $table->json('token')->nullable();
             $table->timestamps();
 
+            $table->foreign('branch_uuid')->references('uuid')->on('BRANCHES')->onDelete('RESTRICT');
             $table->foreign('job_position_uuid')->references('uuid')->on('JOB_POSITIONS')->onDelete('RESTRICT');
         });
     }

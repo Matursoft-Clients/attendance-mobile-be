@@ -19,10 +19,9 @@ class Setting extends Model
         'presence_entry_start',
         'presence_entry_end',
         'presence_exit',
-        'presence_location_address',
-        'presence_location_latitude',
-        'presence_location_longitude',
         'presence_meter_radius',
+        'mobile_app_version',
+        'play_store_url',
     ];
 
     protected $primaryKey = 'uuid';

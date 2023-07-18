@@ -6,6 +6,7 @@ use App\Helpers\GetCurrentUserHelper;
 use App\Http\Requests\DailyAttendance\DailyAttendanceRequest;
 use App\Http\Requests\Presence\EntryPresenceRequest;
 use App\Http\Requests\Presence\ExitPresenceRequest;
+use App\Models\Branch;
 use App\Models\CustomAttendanceLocation;
 use App\Models\DailyAttendance;
 use App\Models\Employee;
@@ -83,6 +84,9 @@ class DailyAttendanceController extends Controller
         // Get Default Setting for Attendance
         $settings = Setting::first();
 
+        // Get Branch 
+        $branch = Branch::where('uuid', $employee->branch_uuid)->first();
+
         if ($custom_attendance) {
             if (strtotime($custom_attendance->start_date) <= strtotime(date("Y-m-d H:i:s")) && strtotime($custom_attendance->end_date) >= strtotime(date("Y-m-d H:i:s"))) {
                 DailyAttendance::create([
@@ -114,9 +118,9 @@ class DailyAttendanceController extends Controller
             'presence_entry_address'   => $address,
             'presence_entry_latitude'  => $latitude,
             'presence_entry_longitude' => $longitude,
-            'reference_address'        => $settings->presence_location_address,
-            'reference_latitude'       => $settings->presence_location_latitude,
-            'reference_longitude'      => $settings->presence_location_longitude,
+            'reference_address'        => $branch->presence_location_address,
+            'reference_latitude'       => $branch->presence_location_latitude,
+            'reference_longitude'      => $branch->presence_location_longitude,
         ]);
 
         return response()->json([

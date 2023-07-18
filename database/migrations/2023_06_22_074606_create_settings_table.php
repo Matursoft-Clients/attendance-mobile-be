@@ -18,10 +18,9 @@ return new class extends Migration
             $table->string('presence_entry_start');
             $table->string('presence_entry_end');
             $table->string('presence_exit');
-            $table->text('presence_location_address');
-            $table->double('presence_location_latitude');
-            $table->double('presence_location_longitude');
             $table->integer('presence_meter_radius');
+            $table->string('mobile_app_version');
+            $table->string('play_store_url');
             $table->timestamps();
         });
     }

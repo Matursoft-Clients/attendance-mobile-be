@@ -13,15 +13,14 @@ class SettingSeeder extends Seeder
     public function run(): void
     {
         Setting::create([
-            'office_name'                 => 'Reed co.',
-            'office_logo'                 => null,
-            'presence_entry_start'        => '06:00:00',
-            'presence_entry_end'          => '08:00:00',
-            'presence_exit'               => '17:00:00',
-            'presence_location_address'   => 'Sumampir RT 10/03',
-            'presence_location_latitude'  => '41.40338',
-            'presence_location_longitude' => '2.17403',
-            'presence_meter_radius'       => 12,
+            'office_name'           => 'Reed co.',
+            'office_logo'           => null,
+            'presence_entry_start'  => '06:00:00',
+            'presence_entry_end'    => '08:00:00',
+            'presence_exit'         => '17:00:00',
+            'presence_meter_radius' => 12,
+            'mobile_app_version'    => '1.0.0',
+            'play_store_url'        => 'https://play.google.com',
         ]);
     }
 }

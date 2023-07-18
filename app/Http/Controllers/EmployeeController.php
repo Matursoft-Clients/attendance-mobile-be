@@ -12,6 +12,7 @@ use App\Http\Requests\Employee\UpdateUserRequest;
 use App\Http\Requests\ResetPassword\CheckTokenRequest;
 use App\Http\Requests\ResetPassword\ForgotPasswordRequest;
 use App\Http\Requests\ResetPassword\ResetPasswordRequest;
+use App\Models\Branch;
 use App\Models\Employee;
 use App\Models\JobPosition;
 use Illuminate\Http\Request;
@@ -66,6 +67,8 @@ class EmployeeController extends Controller
             // Get Current User
             $user = GetCurrentUserHelper::getCurrentUser($request->bearerToken(), new Employee());
 
+            $branch = Branch::where('uuid', $user->branch_uuid)->first()->name;
+
             $jobPosition = JobPosition::where('uuid', $user->job_position_uuid)->first()->name;
 
             return response()->json([
@@ -73,11 +76,14 @@ class EmployeeController extends Controller
                 'msg'  => "Here is the User",
                 'data' =>
                 [
-                    'uuid'  => $user->uuid,
-                    'name'  => $user->name,
-                    'email' => $user->email,
-                    'photo' => $user->photo ? config('app.web_url') . "employee/" . $user->photo : null,
-                    'job_position' => $jobPosition,
+                    'uuid'            => $user->uuid,
+                    'nik'             => $user->nik,
+                    'name'            => $user->name,
+                    'email'           => $user->email,
+                    'whatsapp_number' => $user->whatsapp_number,
+                    'photo'           => $user->photo ? config('app.web_url') . "employee/" . $user->photo : null,
+                    'branch'          => $branch,
+                    'job_position'    => $jobPosition,
                 ]
             ], 200);
         } catch (\Throwable $th) {

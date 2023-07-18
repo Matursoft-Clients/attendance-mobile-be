@@ -6,18 +6,19 @@ use App\Traits\Uuid;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Announcement extends Model
+class Branch extends Model
 {
     use Uuid, HasFactory;
 
-    protected $table = 'ANNOUNCEMENTS';
+    protected $table = 'BRANCHES';
 
     protected $fillable = [
         'uuid',
-        'title',
-        'slug',
-        'thumbnail',
-        'content',
+        'name',
+        'code',
+        'presence_location_address',
+        'presence_location_latitude',
+        'presence_location_longitude',
     ];
 
     protected $primaryKey = 'uuid';

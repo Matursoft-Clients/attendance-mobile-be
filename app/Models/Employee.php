@@ -14,9 +14,12 @@ class Employee extends Model
 
     protected $fillable = [
         'uuid',
+        'branch_uuid',
         'job_position_uuid',
+        'nik',
         'name',
         'email',
+        'whatsapp_number',
         'password',
         'photo',
         'token',

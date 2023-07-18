@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('nik', 16);
             $table->string('name', 60);
             $table->string('email', 60)->unique();
-            $table->string('whatsapp_number', 14);
+            $table->string('whatsapp_number', 16);
             $table->string('password');
             $table->string('photo')->nullable();
             $table->json('token')->nullable();

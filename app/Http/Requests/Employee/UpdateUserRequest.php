@@ -28,6 +28,7 @@ class UpdateUserRequest extends FormRequest
             'name'      => 'required|string|max:50',
             'password'  => ['nullable', 'min:6', 'confirmed'],
             'photo'     => 'mimes:jpg,jpeg,png',
+            'whatsapp_number' => 'required|numeric'
         ];
     }
 

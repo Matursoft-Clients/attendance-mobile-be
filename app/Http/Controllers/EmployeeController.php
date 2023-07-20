@@ -67,7 +67,7 @@ class EmployeeController extends Controller
             // Get Current User
             $user = GetCurrentUserHelper::getCurrentUser($request->bearerToken(), new Employee());
 
-            $branch = Branch::where('uuid', $user->branch_uuid)->first()->name;
+            $branch = Branch::where('uuid', $user->branch_uuid)->first();
 
             $jobPosition = JobPosition::where('uuid', $user->job_position_uuid)->first()->name;
 
@@ -111,6 +111,7 @@ class EmployeeController extends Controller
 
             $user->update([
                 'name'     => $request->name,
+                'whatsapp_number'     => $request->whatsapp_number,
                 'password' => Hash::make($request->password),
                 'photo'    => $request->file('photo') ? $uploadPhoto->body() : $user->photo,
 

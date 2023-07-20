@@ -163,23 +163,26 @@ class DailyAttendanceController extends Controller
     {
         $employees_uuid = Employee::pluck('uuid')->all();
 
-        for ($i = 0; $i < count($employees_uuid); $i++) {
-            $daily_attendance = DailyAttendance::where('employee_uuid', $employees_uuid[$i])->whereDate('date', date("Y-m-d"))->first();
+        if (date("H") == 23) {
 
-            if (!$daily_attendance) {
-                DailyAttendance::create([
-                    'employee_uuid'         => $employees_uuid[$i],
-                    'date'                  => date("Y-m-d H:i:s"),
-                    'presence_entry_status' => 'not_present',
-                    'presence_exit_status'  => 'not_present',
-                ]);
-            }
+            for ($i = 0; $i < count($employees_uuid); $i++) {
+                $daily_attendance = DailyAttendance::where('employee_uuid', $employees_uuid[$i])->whereDate('date', date("Y-m-d"))->first();
 
-            if ($daily_attendance) {
-                if ($daily_attendance->presence_exit_status === null) {
-                    $daily_attendance->update([
-                        'presence_exit_status' => 'not_present',
+                if (!$daily_attendance) {
+                    DailyAttendance::create([
+                        'employee_uuid'         => $employees_uuid[$i],
+                        'date'                  => date("Y-m-d H:i:s"),
+                        'presence_entry_status' => 'not_present',
+                        'presence_exit_status'  => 'not_present',
                     ]);
+                }
+
+                if ($daily_attendance) {
+                    if ($daily_attendance->presence_exit_status === null) {
+                        $daily_attendance->update([
+                            'presence_exit_status' => 'not_present',
+                        ]);
+                    }
                 }
             }
         }

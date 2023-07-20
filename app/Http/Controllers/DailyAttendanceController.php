@@ -175,10 +175,12 @@ class DailyAttendanceController extends Controller
                 ]);
             }
 
-            if ($daily_attendance->presence_exit_status === null) {
-                $daily_attendance->update([
-                    'presence_exit_status' => 'not_present',
-                ]);
+            if ($daily_attendance) {
+                if ($daily_attendance->presence_exit_status === null) {
+                    $daily_attendance->update([
+                        'presence_exit_status' => 'not_present',
+                    ]);
+                }
             }
         }
 

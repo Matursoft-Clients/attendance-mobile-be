@@ -164,11 +164,11 @@ class DailyAttendanceController extends Controller
         $employees_uuid = Employee::pluck('uuid')->all();
 
         for ($i = 0; $i < count($employees_uuid); $i++) {
-            $daily_attendance = DailyAttendance::where('employee_uuid', $employees_uuid)->whereDate('date', date("Y-m-d"))->first();
+            $daily_attendance = DailyAttendance::where('employee_uuid', $employees_uuid[$i])->whereDate('date', date("Y-m-d"))->first();
 
             if (!$daily_attendance) {
                 DailyAttendance::create([
-                    'employee_uuid'         => $employees_uuid,
+                    'employee_uuid'         => $employees_uuid[$i],
                     'date'                  => date("Y-m-d H:i:s"),
                     'presence_entry_status' => 'not_present',
                     'presence_exit_status'  => 'not_present',

@@ -29,7 +29,7 @@ class DailyAttendanceController extends Controller
                 $new_date = date('d F Y', $new_date);
                 return response()->json([
                     'code' => 200,
-                    'msg' => "The User hasn't Attended on " . $new_date,
+                    'msg'  => "The User hasn't Attended on " . $new_date,
                     'data' => [
                         'attendance' => [
                             'status' => false
@@ -58,7 +58,6 @@ class DailyAttendanceController extends Controller
     public function entry(EntryPresenceRequest $request)
     {
         // Get value from request body
-        $address             = $request->address;
         $latitude            = $request->latitude;
         $longitude           = $request->longitude;
 
@@ -92,9 +91,8 @@ class DailyAttendanceController extends Controller
                 DailyAttendance::create([
                     'employee_uuid'            => $employee->uuid,
                     'date'                     => date("Y-m-d H:i:s"),
-                    'presence_entry_status'    => $settings->presence_entry_end >= date("H:i:s") ? 'on_time' : 'late',
+                    'presence_entry_status'    => $settings->presence_entry_start > date("H:i:s") ? 'not_valid' : ($settings->presence_entry_end >= date("H:i:s") ? 'on_time' : 'late'),
                     'presence_entry_hour'      => date("H:i"),
-                    'presence_entry_address'   => $address,
                     'presence_entry_latitude'  => $latitude,
                     'presence_entry_longitude' => $longitude,
                     'reference_address'        => $custom_attendance->presence_location_address,
@@ -113,9 +111,8 @@ class DailyAttendanceController extends Controller
         DailyAttendance::create([
             'employee_uuid'            => $employee->uuid,
             'date'                     => date("Y-m-d H:i:s"),
-            'presence_entry_status'    => $settings->presence_entry_end >= date("H:i:s") ? 'on_time' : 'late',
+            'presence_entry_status'    => $settings->presence_entry_start > date("H:i:s") ? 'not_valid' : ($settings->presence_entry_end >= date("H:i:s") ? 'on_time' : 'late'),
             'presence_entry_hour'      => date("H:i"),
-            'presence_entry_address'   => $address,
             'presence_entry_latitude'  => $latitude,
             'presence_entry_longitude' => $longitude,
             'reference_address'        => $branch->presence_location_address,
@@ -132,7 +129,6 @@ class DailyAttendanceController extends Controller
     public function exit(ExitPresenceRequest $request)
     {
         // Get value from request body
-        $address             = $request->address;
         $latitude            = $request->latitude;
         $longitude           = $request->longitude;
 
@@ -151,9 +147,8 @@ class DailyAttendanceController extends Controller
         }
 
         $daily_attendance->update([
-            'presence_exit_status'    => $settings->presence_exit >= date("H:i:s") ? 'early' : 'on_time',
+            'presence_exit_status'    => $settings->presence_exit > date("H:i:s") ? 'early' : 'on_time',
             'presence_exit_hour'      => date("H:i"),
-            'presence_exit_address'   => $address,
             'presence_exit_latitude'  => $latitude,
             'presence_exit_longitude' => $longitude,
         ]);

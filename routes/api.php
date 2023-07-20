@@ -101,6 +101,7 @@ Route::group(
         'prefix' => 'presence'
     ],
     function () {
+        Route::post('/cronjob', [DailyAttendanceController::class, 'cronjob']);
         Route::middleware(['auth.auth'])->group(function () {
             Route::post('/entry', [DailyAttendanceController::class, 'entry']);
             Route::post('/exit', [DailyAttendanceController::class, 'exit']);

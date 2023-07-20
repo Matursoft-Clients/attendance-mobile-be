@@ -58,8 +58,8 @@ class DailyAttendanceController extends Controller
     public function entry(EntryPresenceRequest $request)
     {
         // Get value from request body
-        $latitude            = $request->latitude;
-        $longitude           = $request->longitude;
+        $latitude  = $request->latitude;
+        $longitude = $request->longitude;
 
         // Get Current User
         $employee = GetCurrentUserHelper::getCurrentUser($request->bearerToken(), new Employee());
@@ -70,7 +70,7 @@ class DailyAttendanceController extends Controller
         if ($daily_attendance) {
             return response()->json([
                 'code' => 200,
-                'msg' => "You have Already Done Presence Entry",
+                'msg'  => "You have Already Done Presence Entry",
             ], 200);
         }
 
@@ -102,7 +102,7 @@ class DailyAttendanceController extends Controller
 
                 return response()->json([
                     'code' => 200,
-                    'msg' => "You have Successfully Do Presence Entry",
+                    'msg'  => "You have Successfully Do Presence Entry",
                 ], 200);
             }
         }
@@ -122,15 +122,15 @@ class DailyAttendanceController extends Controller
 
         return response()->json([
             'code' => 200,
-            'msg' => "You have Successfully Do Presence Entry",
+            'msg'  => "You have Successfully Do Presence Entry",
         ], 200);
     }
 
     public function exit(ExitPresenceRequest $request)
     {
         // Get value from request body
-        $latitude            = $request->latitude;
-        $longitude           = $request->longitude;
+        $latitude  = $request->latitude;
+        $longitude = $request->longitude;
 
         // Get Current User
         $employee = GetCurrentUserHelper::getCurrentUser($request->bearerToken(), new Employee());
@@ -142,7 +142,7 @@ class DailyAttendanceController extends Controller
         if (!$daily_attendance) {
             return response()->json([
                 'code' => 200,
-                'msg' => "You have to Do Presence Entry First",
+                'msg'  => "You have to Do Presence Entry First",
             ], 200);
         }
 
@@ -155,7 +155,36 @@ class DailyAttendanceController extends Controller
 
         return response()->json([
             'code' => 200,
-            'msg' => "You have Successfully Do Presence Exit",
+            'msg'  => "You have Successfully Do Presence Exit",
+        ], 200);
+    }
+
+    public function cronjob()
+    {
+        $employees_uuid = Employee::pluck('uuid')->all();
+
+        for ($i = 0; $i < count($employees_uuid); $i++) {
+            $daily_attendance = DailyAttendance::where('employee_uuid', $employees_uuid)->whereDate('date', date("Y-m-d"))->first();
+
+            if (!$daily_attendance) {
+                DailyAttendance::create([
+                    'employee_uuid'         => $employees_uuid,
+                    'date'                  => date("Y-m-d H:i:s"),
+                    'presence_entry_status' => 'not_present',
+                    'presence_exit_status'  => 'not_present',
+                ]);
+            }
+
+            if ($daily_attendance->presence_exit_status === null) {
+                $daily_attendance->update([
+                    'presence_exit_status' => 'not_present',
+                ]);
+            }
+        }
+
+        return response()->json([
+            'code' => 200,
+            'msg' => "Presence cronjob has been successfully performed.",
         ], 200);
     }
 }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Helpers\EmailVerificationCodeHelper;
 use App\Helpers\GetCurrentUserHelper;
-use App\Helpers\ModelFileUploadHelper;
 use App\Helpers\SendEmailHelper;
 use App\Helpers\TokenHelper;
 use App\Http\Requests\Auth\LoginRequest;
@@ -27,17 +26,17 @@ class EmployeeController extends Controller
             $email    = $request->email;
             $password = $request->password;
 
-            if (!$employee = Employee::where('email', $email)->first()) {
+            if (!$employee = Employee::where('email', $email)->orWhere('nrp', $email)->first()) {
                 return response()->json([
                     'code' => 422,
-                    'msg'  => "Email or Password is Wrong",
+                    'msg'  => "Email, NRP or Password is Wrong",
                 ], 422);
             }
 
             if (Hash::check($password, $employee->password) == false) {
                 return response()->json([
                     'code' => 422,
-                    'msg'  => "Email or Password is Wrong",
+                    'msg'  => "Email, NRP or Password is Wrong",
                 ], 422);
             } else {
                 // Generate Token Login
@@ -78,6 +77,7 @@ class EmployeeController extends Controller
                 [
                     'uuid'            => $user->uuid,
                     'nik'             => $user->nik,
+                    'nrp'             => $user->nrp,
                     'name'            => $user->name,
                     'email'           => $user->email,
                     'whatsapp_number' => $user->whatsapp_number,

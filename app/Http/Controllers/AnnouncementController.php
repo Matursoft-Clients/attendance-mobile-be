@@ -19,7 +19,8 @@ class AnnouncementController extends Controller
                 'ANNOUNCEMENTS.slug',
                 DB::raw("CONCAT('" . config('app.web_url') . "announcement/', thumbnail) as thumbnail"),
                 DB::raw('DATE_FORMAT(ANNOUNCEMENTS.created_at, "%Y-%m-%d %H:%i:%s") as created_at_format')
-            )->paginate($size);
+            )->orderBy('ANNOUNCEMENTS.created_at', 'DESC')
+                ->paginate($size);
 
             return response()->json([
                 'code' => 200,

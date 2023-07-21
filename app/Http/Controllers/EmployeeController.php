@@ -105,16 +105,14 @@ class EmployeeController extends Controller
                     'photo',
                     $request->file('photo')->getContent(),
                     $request->file('photo')->getFilename() . '.' . $request->file('photo')->getClientOriginalExtension()
-                )->post(config('app.web_url') . 'employees/' . $user->uuid);
+                )->post(config('app.web_be_url') . 'employees/' . $user->uuid);
             }
-
 
             $user->update([
                 'name'            => $request->name,
                 'whatsapp_number' => $request->whatsapp_number,
                 'password'        => $request->password ? Hash::make($request->password) : $user->password,
                 'photo'           => $request->file('photo') ? $uploadPhoto->body() : $user->photo,
-
             ]);
 
             return response()->json([

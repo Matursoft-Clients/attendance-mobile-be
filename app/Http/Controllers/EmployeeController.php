@@ -23,8 +23,10 @@ class EmployeeController extends Controller
     public function login(LoginRequest $request)
     {
         try {
-            $email    = $request->email;
-            $password = $request->password;
+            $device_id   = $request->device_id;
+            $device_name = $request->device_name;
+            $email       = $request->email;
+            $password    = $request->password;
 
             if (!$employee = Employee::where('email', $email)->orWhere('nrp', $email)->first()) {
                 return response()->json([
@@ -33,12 +35,29 @@ class EmployeeController extends Controller
                 ], 422);
             }
 
+            if ($employee->device_id) {
+                if ($employee->device_id !== $device_id || $employee->device_name !== $device_name) {
+                    return response()->json([
+                        'code' => 422,
+                        'msg'  => "Please Login With the Associated Phone",
+                    ], 422);
+                }
+            }
+
             if (Hash::check($password, $employee->password) == false) {
                 return response()->json([
                     'code' => 422,
                     'msg'  => "Email, NRP or Password is Wrong",
                 ], 422);
             } else {
+                if (!$employee->device_id) {
+                    // Update device id and device name
+                    $employee->update([
+                        'device_id'   => $device_id,
+                        'device_name' => $device_name,
+                    ]);
+                }
+
                 // Generate Token Login
                 $employee_uuid = $employee->uuid;
                 $employee_name = $employee->name;

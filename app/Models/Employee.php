@@ -16,6 +16,8 @@ class Employee extends Model
         'uuid',
         'branch_uuid',
         'job_position_uuid',
+        'device_id',
+        'device_name',
         'nik',
         'name',
         'email',

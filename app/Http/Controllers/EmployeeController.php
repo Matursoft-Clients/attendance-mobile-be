@@ -51,6 +51,14 @@ class EmployeeController extends Controller
                 ], 422);
             } else {
                 if (!$employee->device_id) {
+                    $employee_with_device_id = Employee::where('device_id', $device_id)->first();
+                    if ($employee_with_device_id) {
+                        return response()->json([
+                            'code' => 422,
+                            'msg'  => "The phone has been used to login to another account",
+                        ], 422);
+                    }
+
                     // Update device id and device name
                     $employee->update([
                         'device_id'   => $device_id,

@@ -49,13 +49,17 @@ class AnnouncementController extends Controller
     public function show(ShowAnnouncementRequest $request)
     {
         try {
-            $slug         = $request->slug;
+            $slug = $request->slug;
+
+            $employee = GetCurrentUserHelper::getCurrentUser($request->bearerToken(), new Employee());
+
             $announcement = Announcement::select(
                 'ANNOUNCEMENTS.title',
                 'ANNOUNCEMENTS.slug',
                 DB::raw("CONCAT('" . config('app.web_url') . "announcement/', thumbnail) as thumbnail"),
                 'ANNOUNCEMENTS.content',
-                DB::raw('DATE_FORMAT(ANNOUNCEMENTS.created_at, "%Y-%m-%d %H:%i:%s") as created_at_format')
+                DB::raw('DATE_FORMAT(ANNOUNCEMENTS.created_at, "%Y-%m-%d %H:%i:%s") as created_at_format'),
+                DB::raw('(SELECT COUNT(*) FROM EMPLOYEE_HAS_ANNOUNCEMENT_NOTIFICATIONS WHERE EMPLOYEE_HAS_ANNOUNCEMENT_NOTIFICATIONS.announcement_uuid = ANNOUNCEMENTS.uuid AND EMPLOYEE_HAS_ANNOUNCEMENT_NOTIFICATIONS.employee_uuid = ' . "'" . $employee->uuid . "') as not_read"),
             )->where('slug', $slug)->first();
 
             return response()->json([

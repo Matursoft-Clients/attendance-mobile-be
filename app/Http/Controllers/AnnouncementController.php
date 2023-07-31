@@ -54,6 +54,7 @@ class AnnouncementController extends Controller
             $employee = GetCurrentUserHelper::getCurrentUser($request->bearerToken(), new Employee());
 
             $announcement = Announcement::select(
+                'ANNOUNCEMENTS.uuid',
                 'ANNOUNCEMENTS.title',
                 'ANNOUNCEMENTS.slug',
                 DB::raw("CONCAT('" . config('app.web_url') . "announcement/', thumbnail) as thumbnail"),

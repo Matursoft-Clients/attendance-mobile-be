@@ -16,6 +16,7 @@ class DatabaseSeeder extends Seeder
             AnnouncementSeeder::class,
             BannerSeeder::class,
             SettingSeeder::class,
+            CitySeeder::class,
             BranchSeeder::class,
             UserSeeder::class,
             JobPositionSeeder::class,

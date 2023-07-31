@@ -48,7 +48,9 @@ Route::group(
     function () {
         Route::middleware(['auth.auth'])->group(function () {
             Route::get('/', [AnnouncementController::class, 'index']);
+            Route::get('/amount-announcement-notifications', [AnnouncementController::class, 'amountAnnouncementNotification']);
             Route::get('/{slug}', [AnnouncementController::class, 'show']);
+            Route::delete('/{uuid}', [AnnouncementController::class, 'deleteAnnouncementNotification']);
         });
     }
 );

@@ -12,7 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('BRANCHES', function (Blueprint $table) {
-            $table->string('city', 100)->nullable()->after('code');
+            $table->uuid('city_uuid', 36)->nullable()->after('uuid');
+
+            $table->foreign('city_uuid')->references('uuid')->on('CITIES')->onDelete('RESTRICT');
         });
     }
 

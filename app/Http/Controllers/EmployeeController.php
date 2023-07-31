@@ -12,6 +12,7 @@ use App\Http\Requests\ResetPassword\CheckTokenRequest;
 use App\Http\Requests\ResetPassword\ForgotPasswordRequest;
 use App\Http\Requests\ResetPassword\ResetPasswordRequest;
 use App\Models\Branch;
+use App\Models\City;
 use App\Models\Employee;
 use App\Models\JobPosition;
 use Illuminate\Http\Request;
@@ -94,6 +95,9 @@ class EmployeeController extends Controller
             $user = GetCurrentUserHelper::getCurrentUser($request->bearerToken(), new Employee());
 
             $branch = Branch::where('uuid', $user->branch_uuid)->first();
+
+            $city = City::where('uuid', $branch->city_uuid)->first();
+            $branch->city = $city;
 
             $jobPosition = JobPosition::where('uuid', $user->job_position_uuid)->first()->name;
 

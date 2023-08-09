@@ -16,20 +16,18 @@ class CustomAttendanceLocationController extends Controller
             $employee = GetCurrentUserHelper::getCurrentUser($request->bearerToken(), new Employee());
 
             $custom_attendance = CustomAttendanceLocation::where('employee_uuid', $employee->uuid)
-                ->whereDate('start_date', '<=', date("Y-m-d H:i:s"))
-                ->whereDate('end_date', '>=', date("Y-m-d H:i:s"))
+                ->whereDate('start_date', '<=', date("Y-m-d"))
+                ->whereDate('end_date', '>=', date("Y-m-d"))
                 ->first();
 
             if ($custom_attendance) {
-                if (strtotime($custom_attendance->start_date) <= strtotime(date("Y-m-d H:i:s")) && strtotime($custom_attendance->end_date) >= strtotime(date("Y-m-d H:i:s"))) {
-                    return response()->json([
-                        'code' => 200,
-                        'msg'  => "Here is the Custom Attendance Location",
-                        'data' => [
-                            "custom_attendance_location" => $custom_attendance
-                        ]
-                    ], 200);
-                }
+                return response()->json([
+                    'code' => 200,
+                    'msg'  => "Here is the Custom Attendance Location",
+                    'data' => [
+                        "custom_attendance_location" => $custom_attendance
+                    ]
+                ], 200);
             }
 
             return response()->json([

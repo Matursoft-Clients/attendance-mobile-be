@@ -63,6 +63,8 @@ return [
 
     'asset_url' => env('ASSET_URL'),
 
+    'telegram_chat_id' => env('TELEGRAM_CHAT_ID'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Timezone

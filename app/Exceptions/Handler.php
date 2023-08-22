@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 class Handler extends ExceptionHandler
 {
@@ -24,7 +25,18 @@ class Handler extends ExceptionHandler
     public function register(): void
     {
         $this->reportable(function (Throwable $e) {
-            //
+            if ($e instanceof \Exception) {
+                $message = $e->getMessage();
+                $this->sendTelegramMessage($message);
+            }
         });
+    }
+
+    private function sendTelegramMessage($message)
+    {
+        Telegram::bot('mybot')->sendMessage([
+            'chat_id' => config('app.telegram_chat_id'),
+            'text' => $message,
+        ]);
     }
 }

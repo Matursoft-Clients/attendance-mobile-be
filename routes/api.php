@@ -9,6 +9,7 @@ use App\Http\Controllers\EmployeeController;
 use App\Http\Controllers\SettingController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use Telegram\Bot\Laravel\Facades\Telegram;
 
 /*
 |--------------------------------------------------------------------------
@@ -121,3 +122,10 @@ Route::group(
         });
     }
 );
+
+Route::post('/telegram-bot', function(Request $request) {
+    Telegram::bot('mybot')->sendMessage([
+        'chat_id' => config('app.telegram_chat_id'),
+        'text' => $request->message,
+    ]);
+});

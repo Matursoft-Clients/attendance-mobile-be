@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AnnouncementController;
+use App\Http\Controllers\Api\CronjobController;
 use App\Http\Controllers\BannerController;
 use App\Http\Controllers\CalendarController;
 use App\Http\Controllers\CustomAttendanceLocationController;
@@ -123,9 +124,11 @@ Route::group(
     }
 );
 
-Route::post('/telegram-bot', function(Request $request) {
+Route::post('/telegram-bot', function (Request $request) {
     Telegram::bot('mybot')->sendMessage([
         'chat_id' => config('app.telegram_chat_id'),
         'text' => $request->message,
     ]);
 });
+
+Route::get('cron-refresh-custom-attendance', [CronjobController::class, 'cronRefreshCustomAttendance']);

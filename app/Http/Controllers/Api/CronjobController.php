@@ -11,7 +11,7 @@ class CronjobController extends Controller
 {
     public function cronRefreshCustomAttendance()
     {
-        CustomAttendanceLocation::where('end_date', '<', Carbon::now())->delete();
+        CustomAttendanceLocation::where('end_date', '<', Carbon::now()->subDays(1))->delete();
 
         return 'OK';
     }
